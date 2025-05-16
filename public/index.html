@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileFlow - Secure File Sharing</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1>FileFlow - Secure File Sharing</h1>
+    <p>Upload & share files instantly with a secure link.</p>
+
+    <input type="file" id="fileInput">
+    <button onclick="uploadFile()">Upload</button>
+    <p id="link"></p>
+
+    <footer>
+        © FileFlow - All Rights Reserved
+    </footer>
+
+    <script>
+        async function uploadFile() {
+            const file = document.getElementById("fileInput").files[0];
+            if (!file) return alert("Please select a file to upload!");
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const response = await fetch("/upload", { method: "POST", body: formData });
+            const data = await response.json();
+            document.getElementById("link").innerHTML = `<a href="${data.url}" target="_blank">Download File</a>`;
+        }
+    </script>
+
+</body>
+</html>
